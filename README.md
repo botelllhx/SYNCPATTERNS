@@ -49,6 +49,12 @@ python3 lcs_dp_backtracking.py < entrada.txt
 python3 lcs_dp.py
 ```
 
+> 🎮 **DICA DE PLATAFORMA (Windows).** No **PowerShell** o operador `<` não existe e o `|` (`Get-Content ... | python`) corrompe a codificação da entrada (insere um BOM), fazendo o programa rejeitar o `D`. Para rodar no Windows, use o **Prompt de Comando (cmd.exe)** ou o **Git Bash**, que redirecionam o stdin corretamente:
+>
+> ```bat
+> python lcs_dp.py < exemplo_entrada.txt
+> ```
+
 **Formato da entrada:** a 1ª linha contém `D` (número de conjuntos, `D ≤ 10`); cada conjunto tem 2 linhas (sequência de Helena e sequência de Marcus), com 1 a 80 letras minúsculas.
 
 **Exemplo (do roteiro):**
