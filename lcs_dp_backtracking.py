@@ -17,7 +17,6 @@
 #    Victor Alves Alcantara
 #    Vitor Mendonca Braga
 #    Iago Goncalves Moyses
-#    [adicionar 7o/8o integrante - o roteiro exige grupo de 7 ou 8]
 #
 #  Versao : 1.0
 #  Data   : 23/06/2026

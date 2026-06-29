@@ -1,7 +1,18 @@
-# Descobrindo padrões — a jornada para sincronizar dados complexos
+# Descobrindo padrões: a jornada para sincronizar dados complexos
+
+```
+  ███████ ██    ██ ███    ██  ██████
+  ██       ██  ██  ████   ██ ██         S Y N C P A T T E R N S
+  ███████   ████   ██ ██  ██ ██         > PRESS START
+       ██    ██    ██  ██ ██ ██
+  ███████    ██    ██   ████  ██████     Helena  VS  Marcus
+```
+
+> **INSERT COIN.** Dois analistas, dois registros do mesmo fenômeno. Sua missão: encontrar
+> todas as maiores subsequências comuns e sincronizar os dados antes do `GAME OVER`.
 
 **Disciplina:** Fundamentos de Projeto e Análise de Algoritmos
-**Curso:** Sistemas de Informação — PUC Minas, campus Contagem
+**Curso:** Sistemas de Informação, PUC Minas, campus Contagem
 **Professora:** Amália Vasconcelos
 **Problema:** Encontrar **todas as Maiores Subsequências Comuns (LCS) distintas** entre duas sequências de eventos, em ordem alfabética.
 
@@ -14,7 +25,7 @@
 - Vitor Mendonça Braga
 - Iago Gonçalves Moysés
 
-> ⚠️ O roteiro exige grupo de **7 ou 8** integrantes. Estão listados 6 — incluir os demais nomes/matrículas antes da submissão (e também nos cabeçalhos dos arquivos `.py`).
+> ⚠️ **PLAYERS FALTANDO.** O roteiro exige grupo de **7 ou 8** integrantes. Estão listados 6. Incluir os demais nomes/matrículas antes da submissão (e também nos cabeçalhos dos arquivos `.py`).
 
 ## Arquivos da entrega
 
@@ -65,7 +76,7 @@ O problema é o de encontrar **todas** as Maiores Subsequências Comuns (LCS) di
 
 Adotamos duas abordagens, conforme exigido:
 
-1. **Somente PD** (`lcs_dp.py`): cada célula `dp[i][j]` guarda o **conjunto de todas as LCS** dos prefixos `Helena[0..i-1]` e `Marcus[0..j-1]`. A tabela é preenchida de baixo para cima e a enumeração das múltiplas soluções emerge naturalmente das **uniões de conjuntos** quando há empate — sem nenhuma recursão.
+1. **Somente PD** (`lcs_dp.py`): cada célula `dp[i][j]` guarda o **conjunto de todas as LCS** dos prefixos `Helena[0..i-1]` e `Marcus[0..j-1]`. A tabela é preenchida de baixo para cima e a enumeração das múltiplas soluções emerge naturalmente das **uniões de conjuntos** quando há empate, sem nenhuma recursão.
 2. **PD + Backtracking** (`lcs_dp_backtracking.py`): construímos apenas a tabela de **comprimentos** (LCS clássica, barata em memória) e, depois, percorremos a tabela de trás para frente, **ramificando em todos os caminhos ótimos** para reconstruir cada LCS. A recursão é **memoizada** para não recalcular subproblemas.
 
 ---
@@ -87,7 +98,7 @@ Na versão **somente PD**, estendemos a ideia: em vez de guardar só o número, 
 
 ### 2. Por que o uso de backtracking é necessário neste problema?
 
-Porque a tabela de PD com comprimentos responde **"qual o tamanho da maior subsequência comum"**, mas **não diz quais são** as subsequências — e podem existir várias de tamanho máximo. Para **reconstruí-las**, é preciso voltar pela tabela a partir de `(m, n)` decidindo, em cada passo, de onde o valor ótimo veio:
+Porque a tabela de PD com comprimentos responde **"qual o tamanho da maior subsequência comum"**, mas **não diz quais são** as subsequências, e podem existir várias de tamanho máximo. Para **reconstruí-las**, é preciso voltar pela tabela a partir de `(m, n)` decidindo, em cada passo, de onde o valor ótimo veio:
 
 - se as letras casam, a letra faz parte da LCS e seguimos na diagonal;
 - se não casam, seguimos para a vizinha de maior comprimento.
@@ -100,7 +111,7 @@ O ponto crucial é o **empate** (`comprimento[i-1][j] == comprimento[i][j-1]`): 
 - **Explosão combinatória / desempenho.** Sem cuidado, o backtracking reexploraria os mesmos subproblemas exponencialmente. Resolvido com **memoização** (`functools.lru_cache`) por célula `(i, j)`, reduzindo a uma quantidade polinomial de estados.
 - **Ordem alfabética e formatação exata.** A saída deve estar ordenada e com **uma linha em branco entre conjuntos**. Resolvido com `sorted(...)` e juntando os blocos com `"\n\n"`.
 - **Profundidade da recursão.** Com sequências de até 80 caracteres, a pilha padrão poderia ser insuficiente; elevamos o limite com `sys.setrecursionlimit`.
-- **Validação das entradas.** Implementamos checagem de `D` (1–10), tamanho (1–80) e alfabeto (apenas `a`–`z`), com mensagens de erro claras.
+- **Validação das entradas.** Implementamos checagem de `D` (de 1 a 10), tamanho (de 1 a 80) e alfabeto (apenas letras de `a` a `z`), com mensagens de erro claras.
 
 ### 4. Qual é a complexidade da solução proposta? (cálculo passo a passo)
 
@@ -117,7 +128,7 @@ Sejam `m` e `n` os tamanhos das sequências de Helena e Marcus, `L = comprimento
 4. **Total da tabela:** `m·n` células × `O(K·L)` = **`O(m·n·K·L)`**.
 5. **Ordenação final:** ordenar `R` strings de tamanho `L`: `O(R·L·log R)`.
 
-> **Resultado:** o cálculo **apenas dos comprimentos** é `Θ(m·n)`. Ao materializar **todas** as subsequências em **todas** as células, o tempo e o **espaço** sobem para **`O(m·n·K·L)`** — o custo (e a principal desvantagem) desta versão é o **alto uso de memória**, pois guarda conjuntos em cada célula.
+> **Resultado:** o cálculo **apenas dos comprimentos** é `Θ(m·n)`. Ao materializar **todas** as subsequências em **todas** as células, o tempo e o **espaço** sobem para **`O(m·n·K·L)`**. O custo (e a principal desvantagem) desta versão é o **alto uso de memória**, pois guarda conjuntos em cada célula.
 
 #### Versão combinando **PD + Backtracking**
 
@@ -127,7 +138,7 @@ Sejam `m` e `n` os tamanhos das sequências de Helena e Marcus, `L = comprimento
 4. **Total da enumeração:** `O(m·n)` estados × `O(K·L)` = **`O(m·n·K·L)`**.
 5. **Ordenação final:** `O(R·L·log R)`.
 
-> **Resultado:** **`O(m·n)`** para a tabela + **`O(m·n·K·L)`** para enumerar as soluções. A diferença prática para a versão anterior é o **espaço**: aqui a tabela usa apenas `O(m·n)` (inteiros), e os conjuntos só são construídos **sob demanda** ao longo dos caminhos ótimos — bem mais econômico em memória.
+> **Resultado:** **`O(m·n)`** para a tabela + **`O(m·n·K·L)`** para enumerar as soluções. A diferença prática para a versão anterior é o **espaço**: aqui a tabela usa apenas `O(m·n)` (inteiros), e os conjuntos só são construídos **sob demanda** ao longo dos caminhos ótimos, ficando bem mais econômico em memória.
 
 **Observação (limite inferior):** como a saída pode conter `R` subsequências de tamanho `L`, qualquer algoritmo correto precisa de pelo menos `Ω(R·L)` só para **escrever** o resultado. Ambas as versões respeitam esse limite; o backtracking apenas o atinge gastando menos memória intermediária.
 
@@ -142,6 +153,6 @@ Sejam `m` e `n` os tamanhos das sequências de Helena e Marcus, `L = comprimento
 
 ## Referências
 
-- CORMEN, T. H. et al. *Introduction to Algorithms*. 3. ed. MIT Press, 2009. (Cap. 15 — Programação Dinâmica; seção da Longest Common Subsequence.)
+- CORMEN, T. H. et al. *Introduction to Algorithms*. 3. ed. MIT Press, 2009. (Cap. 15: Programação Dinâmica; seção da Longest Common Subsequence.)
 - ZIVIANI, N. *Projeto de Algoritmos com implementações em Java e C++*. Cengage Learning.
-- Documentação oficial do Python — `functools.lru_cache`. Disponível em: https://docs.python.org/3/library/functools.html
+- Documentação oficial do Python: `functools.lru_cache`. Disponível em: https://docs.python.org/3/library/functools.html
