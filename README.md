@@ -34,7 +34,7 @@
 | `README.md` | Este arquivo: descrição da solução e respostas às perguntas. |
 | `interface_grafica.html` | **Interface gráfica interativa** (diferencial dos +3 pontos). Abrir no navegador. |
 | `apresentacao.html` | **Apresentação de slides** (estética 8-bit, rolagem com scroll-snap). Abrir no navegador. Para gerar o PDF: Ctrl+P, destino "Salvar como PDF", layout paisagem. |
-| `apresentacao.pptx` | Versão em PowerPoint da apresentação (alternativa para a entrega formal em .pptx). |
+| `SYNCPATTERNS - Apresentacao.pdf` | Versão em PDF da apresentação (alternativa para a entrega formal em pdf). |
 
 ## Como executar
 
