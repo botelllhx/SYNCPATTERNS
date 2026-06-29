@@ -11,10 +11,10 @@
 > **INSERT COIN.** Dois analistas, dois registros do mesmo fenômeno. Sua missão: encontrar
 > todas as maiores subsequências comuns e sincronizar os dados antes do `GAME OVER`.
 
-**Disciplina:** Fundamentos de Projeto e Análise de Algoritmos
-**Curso:** Sistemas de Informação, PUC Minas, campus Contagem
-**Professora:** Amália Vasconcelos
-**Problema:** Encontrar **todas as Maiores Subsequências Comuns (LCS) distintas** entre duas sequências de eventos, em ordem alfabética.
+- **Disciplina:** Fundamentos de Projeto e Análise de Algoritmos
+- **Curso:** Sistemas de Informação, PUC Minas, campus Contagem
+- **Professora:** Amália Vasconcelos
+- **Problema:** Encontrar **todas as Maiores Subsequências Comuns (LCS) distintas** entre duas sequências de eventos, em ordem alfabética.
 
 ## Integrantes do grupo
 
