@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SYNCPATTERNS // Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#E5A50C; --gold-d:#C98D06; --ink:#231F1C; --ink-soft:#3A332D;
+    --screen:#ECDFBA; --screen-d:#D9C99A; --hi:#FBF3DC; --green:#7FBF6A; --red:#B23A2E;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"VT323","Courier New",monospace;
+    background:var(--ink); color:var(--ink);
+    image-rendering:pixelated;
+  }
+  .pixel{font-family:"Press Start 2P","Courier New",monospace}
+
+  /* deck com scroll-snap */
+  .deck{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .slide{min-height:100dvh;scroll-snap-align:start;position:relative;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:70px 8vw 90px;overflow:hidden}
+  .slide.gold{background:var(--gold);color:var(--ink)}
+  .slide.dark{background:var(--ink);color:var(--screen)}
+  .slide.dark .pixel{color:var(--gold)}
+
+  /* enfeites de canto (xadrez pixel) */
+  .corner{position:absolute;width:64px;height:64px;opacity:.5}
+  .corner.tr{top:26px;right:26px} .corner.bl{bottom:26px;left:26px}
+
+  /* tipografia */
+  .kicker{font-family:"Press Start 2P",monospace;font-size:11px;letter-spacing:2px;margin:0 0 18px;
+    display:flex;align-items:center;gap:12px}
+  .kicker .ic{width:26px;height:26px;display:inline-block}
+  .slide.gold .kicker{color:var(--ink-soft)} .slide.dark .kicker{color:var(--gold-d)}
+  h1.title{font-family:"Press Start 2P",monospace;font-size:30px;line-height:1.5;margin:0 0 22px;max-width:18ch}
+  h2.title{font-family:"Press Start 2P",monospace;font-size:24px;line-height:1.55;margin:0 0 22px;max-width:22ch}
+  p.lead{font-size:25px;line-height:1.4;max-width:60ch;margin:0 0 16px}
+  p.lead b{color:inherit;background:var(--ink);color:var(--gold);padding:0 6px}
+  .slide.dark p.lead b{background:var(--gold);color:var(--ink)}
+  .muted{opacity:.8}
+
+  /* caixas / cartões */
+  .box{box-shadow:inset 0 0 0 3px currentColor;padding:18px 20px}
+  .cols{display:flex;gap:22px;flex-wrap:wrap;margin-top:8px}
+  .col{flex:1;min-width:260px}
+  .card{padding:20px 22px;box-shadow:6px 6px 0 rgba(0,0,0,.28)}
+  .card.dark{background:var(--ink);color:var(--screen)}
+  .card.dark .ct{color:var(--gold)}
+  .card.cream{background:var(--screen);color:var(--ink)}
+  .ct{font-family:"Press Start 2P",monospace;font-size:13px;line-height:1.5;margin:0 0 14px}
+  .tag{font-family:"Press Start 2P",monospace;font-size:9px;padding:6px 10px;display:inline-block;margin-bottom:12px}
+  .tag.a{background:var(--ink);color:var(--gold)} .tag.b{background:var(--gold);color:var(--ink)}
+  ul.list{list-style:none;margin:0;padding:0;font-size:22px;line-height:1.4}
+  ul.list li{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+  ul.list li::before{content:"\25B8";margin-top:3px}
+  code{font-family:"VT323",monospace;font-size:1.05em;background:rgba(0,0,0,.18);padding:0 6px}
+  .slide.dark code{background:rgba(0,0,0,.5);color:var(--hi)}
+  .fileref{font-family:"VT323",monospace;font-size:19px;opacity:.85;margin-top:8px}
+
+  /* capa */
+  .hero{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+  .hero .sp{width:120px;height:148px;flex:0 0 auto}
+  .logoblock{display:flex;align-items:center;gap:18px;margin-bottom:8px}
+  .logoblock .lg{width:58px;height:58px;background:var(--gold);display:grid;place-items:center}
+  .group{font-size:21px;line-height:1.5;margin-top:6px}
+  .vs{font-family:"Press Start 2P",monospace;font-size:18px;background:var(--gold);color:var(--ink);
+    width:48px;height:48px;display:grid;place-items:center}
+
+  /* mini matriz */
+  table.mx{border-collapse:separate;border-spacing:4px}
+  table.mx th,table.mx td{width:40px;height:40px;text-align:center;vertical-align:middle;
+    font-family:"VT323",monospace;font-size:24px}
+  table.mx th{color:inherit;font-weight:bold;background:var(--gold-d);color:var(--ink)}
+  td.c{background:var(--screen-d);color:#7a6c49;box-shadow:inset 0 0 0 2px #c2b187}
+  td.c.f{color:var(--ink)} td.c.d{background:var(--ink);color:var(--screen)}
+
+  .grid7{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:560px}
+  .res{font-family:"VT323",monospace;font-size:26px;letter-spacing:3px;text-align:center;padding:10px;
+    background:var(--ink);color:var(--gold)}
+  .slide.dark .res{background:var(--gold);color:var(--ink)}
+
+  .bigstat{display:flex;gap:26px;flex-wrap:wrap;margin-top:6px}
+  .bigstat .s .n{font-family:"Press Start 2P",monospace;font-size:30px;display:block}
+  .bigstat .s .l{font-size:19px;opacity:.85}
+
+  /* navegação fixa */
+  .dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:50}
+  .dots a{width:14px;height:14px;background:var(--screen-d);box-shadow:inset 0 0 0 2px var(--ink);display:block;cursor:pointer}
+  .dots a.on{background:var(--gold);box-shadow:inset 0 0 0 2px var(--ink)}
+  .topbar{position:fixed;top:0;left:0;right:0;height:8px;background:rgba(0,0,0,.2);z-index:50}
+  .topbar i{display:block;height:100%;width:0;background:var(--gold);transition:width .2s}
+  .hintdown{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+    font-family:"Press Start 2P",monospace;font-size:9px;opacity:.7;animation:bob 1.4s steps(2) infinite}
+  @keyframes bob{50%{transform:translate(-50%,6px)}}
+
+  @media(max-width:720px){
+    h1.title{font-size:22px} h2.title{font-size:18px} p.lead{font-size:21px}
+    .slide{padding:60px 7vw 80px}
+  }
+
+  /* impressão / exportar PDF: 1 slide por página */
+  @media print{
+    @page{size:landscape;margin:0}
+    html,body{background:#fff}
+    .deck{height:auto;overflow:visible;display:block}
+    .dots,.topbar,.hintdown{display:none!important}
+    .slide{min-height:100vh;height:100vh;page-break-after:always;break-after:page}
+  }
+</style>
+</head>
+<body>
+<div class="topbar"><i id="bar"></i></div>
+<div class="dots" id="dots"></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 CAPA -->
+  <section class="slide dark" id="s0">
+    <div class="corner tr" id="cnTR"></div>
+    <div class="logoblock"><div class="lg" id="logo"></div>
+      <div><div class="pixel" style="font-size:26px">SYNCPATTERNS</div>
+      <div style="font-size:20px;color:var(--screen-d)">// caçando padrões com Helena e Marcus</div></div>
+    </div>
+    <div class="hero">
+      <div class="sp" id="spH"></div>
+      <div class="vs">VS</div>
+      <div class="sp" id="spM"></div>
+      <div style="flex:1;min-width:280px">
+        <h1 class="title" style="font-size:26px;margin-bottom:14px">Descobrindo padrões</h1>
+        <p class="lead" style="margin-bottom:10px">A jornada para sincronizar dados complexos.</p>
+        <p class="fileref">Todas as Maiores Subsequências Comuns distintas, com Programação Dinâmica e Backtracking.</p>
+      </div>
+    </div>
+    <div class="group muted" style="margin-top:30px">
+      Fundamentos de Projeto e Análise de Algoritmos. PUC Minas Contagem. Profa. Amália Vasconcelos.<br>
+      Daniel Heringer, Lucas Borges de Freitas, Mateus Botelho de Souza, Victor Alves Alcântara, Vitor Mendonça Braga, Iago Gonçalves Moysés.
+    </div>
+    <div class="hintdown">role para baixo v</div>
+  </section>
+
+  <!-- 2 CONTEXTO -->
+  <section class="slide gold" id="s1">
+    <div class="kicker"><span class="ic" id="i1"></span> 01 / INTRODUÇÃO</div>
+    <h1 class="title">Duas fontes, o mesmo fenômeno</h1>
+    <p class="lead">Helena e Marcus analisam grandes volumes de eventos: logs de servidores, transações financeiras, sensores de uma fábrica. Cada um registra a própria sequência, com formatos diferentes.</p>
+    <p class="lead">Para confiar nos dados, eles precisam <b>sincronizar</b> as fontes: achar os padrões comuns, sempre <b>respeitando a ordem</b> dos eventos.</p>
+    <div class="cols" style="margin-top:10px">
+      <div class="card cream"><div style="display:flex;align-items:center;gap:14px">
+        <span style="width:48px;height:58px;display:inline-block" id="i1H"></span>
+        <div><div class="ct" style="margin:0">HELENA</div><div style="font-size:19px">fonte 1 . <code>ijkijkii</code></div></div></div></div>
+      <div class="card cream"><div style="display:flex;align-items:center;gap:14px">
+        <span style="width:48px;height:58px;display:inline-block" id="i1M"></span>
+        <div><div class="ct" style="margin:0">MARCUS</div><div style="font-size:19px">fonte 2 . <code>ikjikji</code></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 3 PROBLEMA -->
+  <section class="slide dark" id="s2">
+    <div class="kicker"><span class="ic" id="i2"></span> 02 / O PROBLEMA</div>
+    <h1 class="title">Todas as maiores subsequências comuns</h1>
+    <p class="lead">Uma <b>subsequência</b> mantém a ordem mas pode pular posições. A <b>LCS</b> é a maior cadeia presente, na mesma ordem, nas duas fontes.</p>
+    <p class="lead">O ponto central: pode existir <b>mais de uma</b> LCS de tamanho máximo. Queremos <b>todas</b>, distintas e em ordem alfabética.</p>
+    <div class="cols" style="margin-top:8px">
+      <div class="col box"><div class="tag a">ENTRADA</div><div style="font-size:21px;line-height:1.4">D conjuntos (D ate 10). Cada um traz a sequência de Helena e a de Marcus, com 1 a 80 letras de a a z.</div></div>
+      <div class="col box"><div class="tag a">SAÍDA</div><div style="font-size:21px;line-height:1.4">Todas as LCS distintas, ordenadas, sem repetir. Linha em branco entre conjuntos.</div></div>
+    </div>
+  </section>
+
+  <!-- 4 METODOLOGIA / COMO PENSAMOS -->
+  <section class="slide gold" id="s3">
+    <div class="kicker"><span class="ic" id="i3"></span> 03 / COMO PENSAMOS O PROJETO</div>
+    <h1 class="title">Duas formas de resolver</h1>
+    <p class="lead">A força bruta testaria <code>2^n</code> subsequências (inviável para n ate 80). A ideia foi separar o problema: a PD calcula o tamanho ótimo, e o backtracking lista todas as soluções que atingem esse tamanho.</p>
+    <div class="cols">
+      <div class="col card cream"><div class="tag b">ABORDAGEM 1</div>
+        <div class="ct">Somente Programação Dinâmica</div>
+        <ul class="list"><li>Cada célula guarda o conjunto de todas as LCS dos prefixos.</li>
+        <li>As múltiplas soluções surgem da união nos empates.</li><li>Sem recursão, só tabulação.</li></ul>
+        <div class="fileref">lcs_dp.py</div></div>
+      <div class="col card cream"><div class="tag b">ABORDAGEM 2</div>
+        <div class="ct">Prog. Dinâmica + Backtracking</div>
+        <ul class="list"><li>PD constrói só a tabela de comprimentos.</li>
+        <li>O backtracking reconstrói cada LCS pela tabela.</li><li>Memoização evita recálculo.</li></ul>
+        <div class="fileref">lcs_dp_backtracking.py</div></div>
+    </div>
+  </section>
+
+  <!-- 5 PROG DINAMICA -->
+  <section class="slide dark" id="s4">
+    <div class="kicker"><span class="ic" id="i4"></span> 04 / ETAPA 1</div>
+    <h1 class="title">Programação Dinâmica</h1>
+    <div class="cols" style="align-items:center">
+      <div class="col">
+        <p class="lead"><code>dp[i][j]</code> guarda o tamanho da LCS dos prefixos de Helena e Marcus.</p>
+        <ul class="list"><li>casam: <code>dp[i][j] = dp[i-1][j-1] + 1</code></li>
+        <li>senão: <code>dp[i][j] = max(dp[i-1][j], dp[i][j-1])</code></li>
+        <li>subestrutura ótima e subproblemas repetidos.</li></ul>
+        <p class="fileref">Custo da tabela de tamanhos: ordem de m vezes n.</p>
+      </div>
+      <div class="col" style="flex:0 0 auto" id="mxBox"></div>
+    </div>
+  </section>
+
+  <!-- 6 BACKTRACKING -->
+  <section class="slide gold" id="s5">
+    <div class="kicker"><span class="ic" id="i5"></span> 05 / ETAPA 2</div>
+    <h1 class="title">Backtracking</h1>
+    <p class="lead">A tabela diz o tamanho, mas não quais são as LCS. Voltamos do canto até a origem. Quando os comprimentos <b>empatam</b>, o caminho se <b>ramifica</b>, e cada ramo pode revelar uma LCS diferente.</p>
+    <p class="lead">Sem backtracking acharíamos só uma. Com ele, enumeramos todas. No exemplo do roteiro, a ramificação gera <b>7 LCS</b> distintas de tamanho 5.</p>
+    <div class="grid7" style="margin-top:10px" id="grid7b"></div>
+  </section>
+
+  <!-- 7 COMPLEXIDADE -->
+  <section class="slide dark" id="s6">
+    <div class="kicker"><span class="ic" id="i6"></span> 06 / ANÁLISE</div>
+    <h1 class="title">Complexidade</h1>
+    <p class="lead muted">m, n: tamanhos . L: tamanho da LCS . R: nº de LCS distintas . K: maior conjunto mantido.</p>
+    <div class="cols">
+      <div class="col card cream"><div class="tag b">SOMENTE PD</div>
+        <ul class="list"><li>tabela de tamanhos: ordem de m vezes n.</li>
+        <li>conjuntos em cada célula: custo K vezes L.</li>
+        <li>mais memória (guarda tudo na tabela).</li></ul>
+        <div class="ct" style="margin:14px 0 0;font-size:11px">O(m . n . K . L)</div></div>
+      <div class="col card cream"><div class="tag b">PD + BACKTRACKING</div>
+        <ul class="list"><li>tabela de tamanhos: ordem de m vezes n.</li>
+        <li>O(m . n) estados, cada um uma vez.</li>
+        <li>conjuntos sob demanda: menos memória.</li></ul>
+        <div class="ct" style="margin:14px 0 0;font-size:11px">O(m.n) + O(m.n.K.L)</div></div>
+    </div>
+  </section>
+
+  <!-- 7 RESULTADO -->
+  <section class="slide gold" id="s7">
+    <div class="kicker"><span class="ic" id="i7"></span> 07 / DEMONSTRAÇÃO</div>
+    <h1 class="title">Mesma saída nas três versões</h1>
+    <div class="cols" style="align-items:center">
+      <div class="col" style="flex:0 0 auto">
+        <div style="font-size:21px;margin-bottom:6px">entrada</div>
+        <div class="res" style="margin-bottom:8px">ijkijkii</div>
+        <div class="res">ikjikji</div>
+        <div class="bigstat" style="margin-top:18px">
+          <div class="s"><span class="n">7</span><span class="l">LCS distintas</span></div>
+          <div class="s"><span class="n">5</span><span class="l">tamanho</span></div></div>
+      </div>
+      <div class="col">
+        <div style="font-size:21px;margin-bottom:8px">saída (ordem alfabética)</div>
+        <div class="grid7" id="grid7r"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 APRENDIZADOS -->
+  <section class="slide dark" id="s8">
+    <div class="kicker"><span class="ic" id="i8"></span> 08 / CONSIDERAÇÕES FINAIS</div>
+    <h1 class="title">O que aprendemos</h1>
+    <ul class="list" style="font-size:24px;max-width:64ch">
+      <li>PD e backtracking se complementam: uma calcula o ótimo, o outro enumera.</li>
+      <li>Empates na recorrência são a origem das múltiplas soluções.</li>
+      <li>Memoização transforma busca exponencial em custo polinomial.</li>
+      <li>Existe um trade-off claro entre tempo e memória.</li>
+      <li>Validação, formatação e legibilidade também valem nota.</li>
+    </ul>
+  </section>
+
+  <!-- 9 REFERENCIAS -->
+  <section class="slide gold" id="s9">
+    <div class="kicker"><span class="ic" id="i9"></span> 09 / REFERÊNCIAS</div>
+    <h1 class="title" style="font-size:22px">Referências</h1>
+    <ul class="list" style="font-size:21px;max-width:74ch">
+      <li>CORMEN, T. H. et al. Introduction to Algorithms. 3. ed. MIT Press, 2009.</li>
+      <li>ZIVIANI, N. Projeto de Algoritmos com implementações em Java e C++. Cengage.</li>
+      <li>Python docs, functools.lru_cache. docs.python.org/3/library/functools.html</li>
+      <li>Pixelarticons (ícones, licença MIT). Fontes: Press Start 2P e VT323.</li>
+    </ul>
+  </section>
+
+  <!-- 10 DEMONSTRACAO AO VIVO (gatilho da interface) -->
+  <section class="slide dark" id="s10">
+    <div class="kicker"><span class="ic" id="i10"></span> 10 / DEMONSTRAÇÃO AO VIVO</div>
+    <h1 class="title">Agora vamos jogar</h1>
+    <p class="lead">Chegou a hora de abrir a interface gráfica e ver o algoritmo em ação: a matriz de PD se preenchendo e o backtracking ramificando até encontrar todas as LCS.</p>
+    <div class="hero" style="margin-top:18px">
+      <div class="sp" style="width:96px;height:118px" id="spH2"></div>
+      <div style="flex:1;min-width:280px">
+        <div class="box" style="display:inline-block;padding:14px 18px">
+          <span class="tag a" style="margin:0">PRESS START</span>
+          <span class="pixel" style="font-size:18px;margin-left:12px">+3 pontos</span>
+        </div>
+        <div class="fileref" style="font-size:21px;margin-top:14px">arquivo: interface_grafica.html</div>
+        <div class="pixel" style="font-size:18px;color:var(--gold);margin-top:22px">OBRIGADO. PERGUNTAS?</div>
+        <div class="group" style="margin-top:10px">Daniel Heringer, Lucas Borges de Freitas, Mateus Botelho de Souza, Victor Alves Alcântara, Vitor Mendonça Braga, Iago Gonçalves Moysés.</div>
+      </div>
+      <div class="sp" style="width:96px;height:118px" id="spM2"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* icones pixelarticons (MIT) */
+const P={
+ book:'<path d="M2 3h9v2H2zM0 19h11v2H0zM13 3h9v2h-9zm0 16h11v2H13zM11 5h2v18h-2zM0 5h2v14H0zm22 0h2v14h-2zm-7 2h5v2h-5zm0 4h5v2h-5zm0 4h2v2h-2z"/>',
+ zap:'<path d="M4 13h8v6h2v2h-2v2h-2v-8H2v-4h2v2Zm12 6h-2v-2h2v2Zm2-2h-2v-2h2v2Zm2-2h-2v-2h2v2Zm-6-6h8v4h-2v-2h-8V5h-2V3h2V1h2v8Zm-8 2H4V9h2v2Zm2-2H6V7h2v2Zm2-2H8V5h2v2Z"/>',
+ sitemap:'<path d="M4 2h16v2H4zm0 18h16v2H4zM2 4h2v16H2zm18 0h2v16h-2zM4 8h16v2H4zm0 6h16v2H4z"/><path d="M8 4h2v16H8zm6 0h2v16h-2z"/>',
+ grid:'<path d="M4 2h16v2H4zm0 18h16v2H4zM2 4h2v16H2zm18 0h2v16h-2zM4 8h16v2H4zm0 6h16v2H4z"/><path d="M8 4h2v16H8zm6 0h2v16h-2z"/>',
+ branch:'<path d="M4 14h4v2H4zm0 6h4v2H4zm-2-4h2v4H2zm6 0h2v4H8zm8-14h4v2h-4zm0 6h4v2h-4zm-2-4h2v4h-2zm6 0h2v4h-2zm-8 13h5v2h-5zm5-5h2v5h-2zM5 2h2v10H5z"/>',
+ cpu:'<path d="M5 3h14v2H5zm0 16h14v2H5zM3 5h2v14H3zm16 0h2v14h-2zM9 7h6v2H9zm0 8h6v2H9zM7 9h2v6H7zm8 0h2v6h-2zm-4-8h2v2h-2zm0 20h2v2h-2zM1 11h2v2H1zm20 0h2v2h-2zm0-4h2v2h-2zm0 8h2v2h-2zM1 15h2v2H1zm0-8h2v2H1zm6-6h2v2H7zm8 0h2v2h-2zm0 20h2v2h-2zm-8 0h2v2H7z"/>',
+ desktop:'<path d="M2 3h20v2H2zm0 14h20v2H2zM2 5h2v12H2zm18 0h2v12h-2zM9 21h6v2H9zm2-4h2v4h-2z"/>',
+ play:'<path d="M15 11h-2V9h2zm0 4h-2v-2h2zm-2 2h-2v-2h2zm0-8h-2V7h2zm-2-2H9V5h2zM9 21H7V3h2zm6-8h2v-2h-2zm-6 4h2v2H9z"/>',
+ trophy:'<path d="M16 17H13V19H15V21H9V19H11V17H8V15H16V17ZM18 5H22V11H20V7H18V11H20V13H18V15H16V5H8V15H6V13H4V11H6V7H4V11H2V5H6V3H18V5Z"/>',
+ flag:'<path d="M4 2h2v20H4z"/><path d="M4 4h16v2H4zm12 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2zM4 12h16v2H4z"/>',
+ book2:'<path d="M2 3h9v2H2zM0 19h11v2H0zM13 3h9v2h-9zm0 16h11v2H13zM11 5h2v18h-2zM0 5h2v14H0zm22 0h2v14h-2zm-7 2h5v2h-5zm0 4h5v2h-5zm0 4h2v2h-2z"/>',
+};
+function ico(n,c){return '<svg viewBox="0 0 24 24" width="100%" height="100%" fill="'+(c||'currentColor')+'" shape-rendering="crispEdges">'+P[n]+'</svg>';}
+
+/* sprites pixel art */
+const HELENA=["...####...","..######..",".###..###.",".##.++.##.",".#.++++.#.",".#+#++#+#.",".#.++++.#.",".#.+##+.#.","..#.++.#..","..######..","...####...","..#++++#..",".#+++++#+.",".#+++++##.",".#+++++#..","..##.##..."];
+const MARCUS=["..######..",".########.","..######..",".##.++.##.",".#.++++.#.",".#+#++#+#.",".#.++++.#.",".#+####+#.",".#.++++.#.","..######..","...#++#...","..#++++#..",".#++++++#.",".#++++++#.",".#+####+#.","..##..##.."];
+const LOGO=["#.#.#.#",".#.#.#.","#.#.#.#",".#.#.#.","#.#.#.#"];
+function sprite(rows,ink,hi){const w=rows[0].length,h=rows.length;let r='<svg viewBox="0 0 '+(w*4)+' '+(h*4)+'" width="100%" height="100%" shape-rendering="crispEdges">';
+for(let y=0;y<h;y++)for(let x=0;x<w;x++){const c=rows[y][x];if(c==='.')continue;r+='<rect x="'+(x*4)+'" y="'+(y*4)+'" width="4" height="4" fill="'+(c==='#'?ink:hi)+'"/>';}return r+'</svg>';}
+
+/* preencher icones e sprites */
+const set=(id,html)=>{const e=document.getElementById(id);if(e)e.innerHTML=html;};
+set('logo',sprite(LOGO,'#231F1C','#231F1C'));
+set('cnTR',sprite(LOGO,'#E5A50C','#E5A50C'));
+set('spH',sprite(HELENA,'#ECDFBA','#E5A50C')); set('spM',sprite(MARCUS,'#ECDFBA','#C98D06'));
+set('spH2',sprite(HELENA,'#ECDFBA','#E5A50C')); set('spM2',sprite(MARCUS,'#ECDFBA','#C98D06'));
+set('i1H',sprite(HELENA,'#231F1C','#E5A50C')); set('i1M',sprite(MARCUS,'#231F1C','#C98D06'));
+// icones dos kickers: slides claros (gold) usam tinta; escuros usam dourado
+const KIC={i1:['book','#231F1C'],i2:['zap','#E5A50C'],i3:['sitemap','#231F1C'],i4:['grid','#E5A50C'],
+  i5:['branch','#231F1C'],i6:['cpu','#E5A50C'],i7:['play','#231F1C'],i8:['trophy','#E5A50C'],
+  i9:['book','#231F1C'],i10:['desktop','#E5A50C']};
+Object.keys(KIC).forEach(id=>set(id,ico(KIC[id][0],KIC[id][1])));
+
+/* mini matriz (Helena=ikj, Marcus=ijk) */
+(function(){
+  const A=['i','k','j'],B=['i','j','k'],dp=[[0,0,0,0],[0,1,1,1],[0,1,1,2],[0,1,2,2]];
+  let h='<table class="mx"><tr><th></th><th></th><th>i</th><th>j</th><th>k</th></tr>';
+  for(let i=0;i<=3;i++){h+='<tr><th>'+(i===0?'':A[i-1])+'</th>';
+    for(let j=0;j<=3;j++){const m=i>0&&j>0&&A[i-1]===B[j-1];h+='<td class="c f'+(m?' d':'')+'">'+dp[i][j]+'</td>';}
+    h+='</tr>';}
+  set('mxBox',h+'</table>');
+})();
+
+/* grades de 7 LCS */
+const LCS=['ijiji','ijiki','ijkji','ikiji','ikiki','ikjii','ikjki'];
+const gridHtml=LCS.map(x=>'<div class="res">'+x+'</div>').join('');
+set('grid7b',gridHtml); set('grid7r',gridHtml);
+
+/* navegação: dots + barra de progresso + teclado */
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+const dots=document.getElementById('dots');
+slides.forEach((s,i)=>{const a=document.createElement('a');a.title='slide '+(i+1);
+  a.onclick=()=>s.scrollIntoView();dots.appendChild(a);});
+const dotEls=[...dots.children];
+function update(){
+  const top=deck.scrollTop, h=deck.clientHeight;
+  const idx=Math.round(top/h);
+  dotEls.forEach((d,i)=>d.classList.toggle('on',i===idx));
+  document.getElementById('bar').style.width=((top/(deck.scrollHeight-h))*100||0)+'%';
+}
+deck.addEventListener('scroll',update); update();
+document.addEventListener('keydown',e=>{
+  const h=deck.clientHeight, idx=Math.round(deck.scrollTop/h);
+  if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(idx+1,slides.length-1)].scrollIntoView();}
+  else if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();slides[Math.max(idx-1,0)].scrollIntoView();}
+});
+</script>
+</body>
+</html>
+                                                                                                                                                                   
