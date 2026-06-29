@@ -25,8 +25,6 @@
 - Vitor Mendonça Braga
 - Iago Gonçalves Moysés
 
-> ⚠️ **PLAYERS FALTANDO.** O roteiro exige grupo de **7 ou 8** integrantes. Estão listados 6. Incluir os demais nomes/matrículas antes da submissão (e também nos cabeçalhos dos arquivos `.py`).
-
 ## Arquivos da entrega
 
 | Arquivo | Descrição |
